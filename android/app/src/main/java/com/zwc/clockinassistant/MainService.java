@@ -17,8 +17,6 @@ import java.util.Date;
 
 public class MainService extends Service {
 
-    Thread thread = null;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -36,83 +34,17 @@ public class MainService extends Service {
     }
 
     void checkWifi(Intent intent) {
-
-        // 忽略一段时间
-        if (System.currentTimeMillis() < Global.ignoreTime) {
-            return;
-        }
-
-        // 初始化当前状态
-        Global.initializeToday();
-
-        // 获取WIFI名称
-        String wifiName = "";
         if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())) {
             NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
             if (ConnectivityManager.TYPE_WIFI == netInfo.getType ()) {
-                WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                WifiInfo info = wifiManager.getConnectionInfo();
-                wifiName  = info.getSSID();
-                wifiName = wifiName.replace("\"", "");
+                WifiHelper.checkWifi(this);
             }
         }
-
-        // 检测是否需要打卡
-        if (Global.wifiNames.contains(wifiName)) {
-            if (!Global.checkedIn) {
-                Global.shouldCheckIn = true;
-                startNotificationThread();
-            }
-        } else {
-            if (Global.checkedIn && !Global.checkedOut && !isLunchTime(new Date())) {
-                Global.shouldCheckOut = true;
-                startNotificationThread();
-            }
-        }
-
-    }
-
-    void startNotificationThread() {
-        if (thread != null && thread.isAlive()) {
-            return;
-        }
-
-        final MainService _this = this;
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-
-                    String text = NotificationHelper.updateNotification(_this);
-
-                    // 没有提醒, 退出线程
-                    if (text.equals("")) {
-                        break;
-                    }
-
-                    // 定期提醒
-                    try {
-                        Thread.sleep(10 * 1000);
-                    } catch (InterruptedException e) {
-                        break;
-                    }
-                }
-            }
-        });
-        thread.start();
-    }
-
-    boolean isLunchTime(Date date) {
-        double todayHours = ((double)date.getTime() / (1000 * 60 * 60) + 8) % 24;
-        return todayHours >= 11.5 && todayHours <= 14;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-        thread.interrupt();
-        thread = null;
     }
 
     @Override

@@ -8,6 +8,9 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 public class NotificationHelper {
+
+    static Thread thread = null;
+
     public static String updateNotification(Context context) {
         String notificationText = "";
         if (Global.shouldCheckIn) {
@@ -42,5 +45,35 @@ public class NotificationHelper {
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         return builder.build();
+    }
+
+    public static void startNotificationThread(Context context) {
+        if (thread != null && thread.isAlive()) {
+            return;
+        }
+
+        final Context _this = context;
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+
+                    String text = NotificationHelper.updateNotification(_this);
+
+                    // 没有提醒, 退出线程
+                    if (text.equals("")) {
+                        break;
+                    }
+
+                    // 定期提醒
+                    try {
+                        Thread.sleep(10 * 1000);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
+            }
+        });
+        thread.start();
     }
 }

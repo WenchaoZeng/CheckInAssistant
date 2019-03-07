@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putStringSet(wifiKey, new HashSet<>(Global.wifiNames));
             editor.commit();
+
+            WifiHelper.checkWifi(this);
         }
 
         showStatus();
@@ -118,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void cancelIgnore(View view) {
         Global.ignoreTime = 0;
+        WifiHelper.checkWifi(this);
         showStatus();
     }
 }
