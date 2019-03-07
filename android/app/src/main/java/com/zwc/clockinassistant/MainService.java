@@ -33,38 +33,6 @@ public class MainService extends Service {
 
         // 防止进程被杀
         startForeground(1, NotificationHelper.buildNotification(this, "打卡助手"));
-
-        startNotificationThread();
-    }
-
-    void startNotificationThread() {
-        if (thread != null && thread.isAlive()) {
-            return;
-        }
-
-        final MainService _this = this;
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-
-                    String text = NotificationHelper.updateNotification(_this);
-
-                    // 没有提醒, 退出线程
-                    if (text.equals("")) {
-                        break;
-                    }
-
-                    // 定期提醒
-                    try {
-                        Thread.sleep(10 * 1000);
-                    } catch (InterruptedException e) {
-                        break;
-                    }
-                }
-            }
-        });
-        thread.start();
     }
 
     void checkWifi(Intent intent) {
@@ -102,6 +70,36 @@ public class MainService extends Service {
             }
         }
 
+    }
+
+    void startNotificationThread() {
+        if (thread != null && thread.isAlive()) {
+            return;
+        }
+
+        final MainService _this = this;
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+
+                    String text = NotificationHelper.updateNotification(_this);
+
+                    // 没有提醒, 退出线程
+                    if (text.equals("")) {
+                        break;
+                    }
+
+                    // 定期提醒
+                    try {
+                        Thread.sleep(10 * 1000);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
+            }
+        });
+        thread.start();
     }
 
     boolean isLunchTime(Date date) {
