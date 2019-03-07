@@ -30,15 +30,18 @@ public class WifiHelper {
                 NotificationHelper.startNotificationThread(context);
             }
         } else {
-            if (Global.checkedIn && !Global.checkedOut && !isLunchTime(new Date())) {
+            if (Global.checkedIn && !Global.checkedOut && !shouldIgnore(new Date())) {
                 Global.shouldCheckOut = true;
                 NotificationHelper.startNotificationThread(context);
             }
         }
     }
 
-    static boolean isLunchTime(Date date) {
+    static boolean shouldIgnore(Date date) {
         double todayHours = ((double)date.getTime() / (1000 * 60 * 60) + 8) % 24;
-        return todayHours >= 11.5 && todayHours <= 14;
+        if (Global.ignoreBeforeLegalClockOutTime) {
+            return todayHours < 18.5;
+        }
+        return false;
     }
 }

@@ -6,8 +6,9 @@ import java.util.List;
 
 public class Global {
 
-    // WIFI设置
+    // 设置
     public static List<String> wifiNames;
+    public static boolean ignoreBeforeLegalClockOutTime;
     public static boolean changed;
 
     // 当日打卡信息
