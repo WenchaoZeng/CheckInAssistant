@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 初始化当前状态
+        Global.initializeToday();
+
         // 读取配置
         if (Global.wifiNames == null) {
             SharedPreferences sharedPreferences = getSharedPreferences("default", Context.MODE_PRIVATE);
@@ -94,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         showStatus();
-
         NotificationHelper.updateNotification(this);
     }
 

@@ -31,17 +31,31 @@ public class MainService extends Service {
             }
         }, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
 
+        // 防止进程被杀
+        startForeground(1, NotificationHelper.buildNotification(this, "打卡助手"));
 
+        startNotificationThread();
+    }
 
-        // 定期提醒
-        final Context _this = this;
+    void startNotificationThread() {
+        if (thread != null && thread.isAlive()) {
+            return;
+        }
+
+        final MainService _this = this;
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
 
-                    NotificationHelper.updateNotification(_this);
+                    String text = NotificationHelper.updateNotification(_this);
 
+                    // 没有提醒, 退出线程
+                    if (text.equals("")) {
+                        break;
+                    }
+
+                    // 定期提醒
                     try {
                         Thread.sleep(10 * 1000);
                     } catch (InterruptedException e) {
@@ -51,9 +65,6 @@ public class MainService extends Service {
             }
         });
         thread.start();
-
-        // 防止进程被杀
-        startForeground(1, NotificationHelper.buildNotification(this, "打卡助手"));
     }
 
     void checkWifi(Intent intent) {
@@ -63,7 +74,7 @@ public class MainService extends Service {
             return;
         }
 
-        // 初始当前状态
+        // 初始化当前状态
         Global.initializeToday();
 
         // 获取WIFI名称
@@ -82,10 +93,12 @@ public class MainService extends Service {
         if (Global.wifiNames.contains(wifiName)) {
             if (!Global.checkedIn) {
                 Global.shouldCheckIn = true;
+                startNotificationThread();
             }
         } else {
             if (Global.checkedIn && !Global.checkedOut && !isLunchTime(new Date())) {
                 Global.shouldCheckOut = true;
+                startNotificationThread();
             }
         }
 
@@ -101,6 +114,7 @@ public class MainService extends Service {
         super.onDestroy();
 
         thread.interrupt();
+        thread = null;
     }
 
     @Override

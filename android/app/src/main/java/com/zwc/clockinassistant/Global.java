@@ -5,9 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 public class Global {
+
+    // WIFI设置
     public static List<String> wifiNames;
     public static boolean changed;
 
+    // 当日打卡信息
     static int todayDay;
     public static boolean shouldCheckIn;
     public static boolean checkedIn;
@@ -25,6 +28,7 @@ public class Global {
             checkedIn = false;
             shouldCheckOut = false;
             checkedOut = false;
+            ignoreTime = 0;
         }
     }
 }

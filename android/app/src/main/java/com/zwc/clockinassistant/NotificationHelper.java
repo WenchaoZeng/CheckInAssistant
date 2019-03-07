@@ -8,7 +8,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 public class NotificationHelper {
-    public static void updateNotification(Context context) {
+    public static String updateNotification(Context context) {
         String notificationText = "";
         if (Global.shouldCheckIn) {
             notificationText = "上班打卡";
@@ -24,6 +24,8 @@ public class NotificationHelper {
         if (notificationText != "") {
             notificationManager.notify(notificationId, buildNotification(context, notificationText));
         }
+
+        return notificationText;
     }
 
     public static Notification buildNotification(Context context, String text) {
