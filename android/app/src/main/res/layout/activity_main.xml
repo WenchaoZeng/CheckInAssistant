@@ -7,16 +7,40 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/cancelIgnoreButton"
+        android:layout_width="127dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginBottom="156dp"
+        android:onClick="cancelIgnore"
+        android:text="取消忽略"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/ignoreOneHourButton"
+        android:layout_width="127dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginBottom="92dp"
+        android:onClick="ignoreOneHour"
+        android:text="忽略1小时"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/checkButton"
         android:layout_width="131dp"
         android:layout_height="47dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginBottom="30dp"
         android:onClick="check"
-        android:text="我已经打过卡了"
+        android:text="已打卡"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/settingButton"
@@ -41,14 +65,15 @@
         app:layout_constraintVertical_bias="0.507" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:id="@+id/ignoreButton"
+        android:layout_width="127dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="30dp"
-        android:text="打开钉钉"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="28dp"
+        android:onClick="ignore"
+        android:text="忽略本次提醒"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
