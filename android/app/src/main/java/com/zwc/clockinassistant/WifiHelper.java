@@ -29,6 +29,9 @@ public class WifiHelper {
                 Global.shouldCheckIn = true;
                 NotificationHelper.startNotificationThread(context);
             }
+
+            // 取消本次的下班提醒
+            Global.shouldCheckOut = false;
         } else {
             if (Global.checkedIn && !Global.checkedOut && !shouldIgnore(new Date())) {
                 Global.shouldCheckOut = true;
