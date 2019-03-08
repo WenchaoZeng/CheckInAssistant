@@ -46,8 +46,6 @@ public class SettingActivity extends AppCompatActivity {
         Global.changed = true;
 
         // 回到主页面
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
         finish();
     }
 }
