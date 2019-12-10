@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationManagerCompat;
 public class NotificationHelper {
 
     static Thread thread = null;
+    static int count;
 
     public static String updateNotification(Context context) {
         String notificationText = "";
@@ -25,7 +26,8 @@ public class NotificationHelper {
         notificationManager.cancel(notificationId);
 
         if (notificationText != "") {
-            notificationManager.notify(notificationId, buildNotification(context, notificationText));
+            count++;
+            notificationManager.notify(notificationId, buildNotification(context, notificationText + " " + count));
         }
 
         return notificationText;
