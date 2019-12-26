@@ -3,6 +3,7 @@ package com.zwc.clockinassistant;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -37,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
         // 开启服务
         Intent intent = new Intent(this, MainService.class);
         startService(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //android8.0以上通过startForegroundService启动service
+            startForegroundService(intent);
+        } else {
+            startService(intent);
+        }
     }
 
     @Override

@@ -17,21 +17,7 @@ import java.util.Date;
 
 public class MainService extends Service {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        // 监听网络变动
-        registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                checkWifi(intent);
-            }
-        }, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
-
-        // 防止进程被杀
-        startForeground(1, NotificationHelper.buildNotification(this, "打卡助手"));
-    }
+    boolean started = false;
 
     void checkWifi(Intent intent) {
         if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())) {
@@ -43,13 +29,25 @@ public class MainService extends Service {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
+
+        if (!started) {
+
+            // 监听网络变动
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    checkWifi(intent);
+                }
+            }, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+
+            // 防止进程被杀
+            startForeground(1, NotificationHelper.buildNotification(this, "打卡助手"));
+
+            started = true;
+        }
+
         return START_STICKY;
     }
 
@@ -57,5 +55,4 @@ public class MainService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
-
 }
