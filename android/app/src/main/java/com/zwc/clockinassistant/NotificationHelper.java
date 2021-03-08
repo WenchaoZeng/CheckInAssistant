@@ -84,7 +84,7 @@ public class NotificationHelper {
 
                     // 定期提醒
                     try {
-                        Thread.sleep(10 * 1000);
+                        Thread.sleep(2 * 1000);
                     } catch (InterruptedException e) {
                         break;
                     }

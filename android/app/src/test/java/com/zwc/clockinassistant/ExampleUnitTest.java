@@ -2,6 +2,8 @@ package com.zwc.clockinassistant;
 
 import org.junit.Test;
 
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 /**
@@ -11,7 +13,10 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public void test() {
+        Global.setCheckoutTimeFromString("23:19");
+        String a = Global.getCheckoutTimeAsString();
+        long b = Global.diffToCheckoutTime(new Date());
+        int temp = 1;
     }
 }

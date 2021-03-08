@@ -7,6 +7,7 @@ import android.net.wifi.WifiManager;
 import java.util.Date;
 
 public class WifiHelper {
+
     public static void checkWifi(Context context) {
 
         // 忽略一段时间
@@ -45,10 +46,6 @@ public class WifiHelper {
     }
 
     static boolean shouldIgnore(Date date) {
-        double todayHours = ((double)date.getTime() / (1000 * 60 * 60) + 8) % 24;
-        if (Global.ignoreBeforeLegalClockOutTime) {
-            return todayHours < 18.5;
-        }
-        return false;
+        return Global.diffToCheckoutTime(date) <= 0;
     }
 }

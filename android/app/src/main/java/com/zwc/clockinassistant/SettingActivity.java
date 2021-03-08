@@ -31,8 +31,8 @@ public class SettingActivity extends AppCompatActivity {
         TextView wifiTextView = findViewById(R.id.wifiText);
         wifiTextView.setText(text);
 
-        Switch aSwitch = findViewById(R.id.ignoreBeforeLegalClockOutTimeSwitch);
-        aSwitch.setChecked(Global.ignoreBeforeLegalClockOutTime);
+        TextView editTextTextCheckoutTime = findViewById(R.id.editTextTextCheckoutTime);
+        editTextTextCheckoutTime.setText(Global.getCheckoutTimeAsString());
     }
 
     public void save(View view) {
@@ -41,8 +41,8 @@ public class SettingActivity extends AppCompatActivity {
         TextView wifiTextView = findViewById(R.id.wifiText);
         String text = wifiTextView.getText().toString();
         Global.wifiNames = Arrays.asList(text.trim().split("\n"));
-        Switch aSwitch = findViewById(R.id.ignoreBeforeLegalClockOutTimeSwitch);
-        Global.ignoreBeforeLegalClockOutTime = aSwitch.isChecked();
+        TextView editTextTextCheckoutTime = findViewById(R.id.editTextTextCheckoutTime);
+        Global.setCheckoutTimeFromString(editTextTextCheckoutTime.getText().toString().trim(), this);
         Global.changed = true;
 
         // 回到主页面

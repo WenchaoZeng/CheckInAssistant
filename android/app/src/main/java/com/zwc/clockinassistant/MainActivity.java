@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     final String wifiKey = "wifiNames";
     final String ignoreBeforeLegalClockOutTimeKey = "ignoreBeforeLegalClockOutTime";
+    final String checkOutTimeKey = "checkOutTime";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
             Set<String> set = sharedPreferences.getStringSet(wifiKey, new HashSet<String>());
             Global.wifiNames = new ArrayList<>(set);
 
-            Global.ignoreBeforeLegalClockOutTime = sharedPreferences.getBoolean(ignoreBeforeLegalClockOutTimeKey, true);
+            String checkoutTime = sharedPreferences.getString(checkOutTimeKey, "18:00");
+            Global.setCheckoutTimeFromString(checkoutTime, this);
         }
 
         // 开启服务
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences sharedPreferences = getSharedPreferences("default", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putStringSet(wifiKey, new HashSet<>(Global.wifiNames));
-            editor.putBoolean(ignoreBeforeLegalClockOutTimeKey, Global.ignoreBeforeLegalClockOutTime);
+            editor.putString(checkOutTimeKey, Global.getCheckoutTimeAsString());
             editor.commit();
 
             WifiHelper.checkWifi(this);
