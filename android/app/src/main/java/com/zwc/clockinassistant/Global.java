@@ -53,8 +53,13 @@ public class Global {
             checkoutTime = format.parse(input);
         } catch (ParseException e) {
             e.printStackTrace();
+            return;
         }
 
+        refreshCheckoutWaitingThread(context);
+    }
+
+    public static void refreshCheckoutWaitingThread(Context context) {
         // 初始化自动打卡线程
         if (thread != null && thread.isAlive()) {
             thread.interrupt();

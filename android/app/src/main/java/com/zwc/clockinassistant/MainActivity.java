@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         if (Global.shouldCheckIn) {
             Global.checkedIn = true;
             Global.shouldCheckIn = false;
+            Global.refreshCheckoutWaitingThread(this);
         } else if (Global.shouldCheckOut) {
             Global.checkedOut = true;
             Global.shouldCheckOut = false;
